@@ -82,10 +82,10 @@ export default {
     }
   },
   created () {
-    axios.post('http://106.13.75.89:8080/book/search', {'tag': this.$route.params.book_name, 'page': 0, 'size': 10})
+    axios.post('http://localhost:51324/BookList/searchName', {'name': this.$route.params.book_name, 'page': 0, 'size': 10})
       .then((response) => {
-        console.log(response.data.data)
-        this.booklist = response.data.data
+        console.log(response.data)
+        this.booklist = response.data
         this.searchstring = this.$route.params.book_name
       }).catch((error) => {
         console.log(error)
@@ -115,10 +115,11 @@ export default {
     handleSizeChange (val) {
       this.size = val
       console.log(`每页 ${val} 条`)
-      axios.post('http://106.13.75.89:8080/book/search', {'tag': this.$route.params.book_name, 'page': this.page, 'size': this.size})
+      axios.post('http://localhost:51324/BookList/searchName', {'name': this.$route.params.book_name, 'page': this.page, 'size': this.size})
         .then((response) => {
-          console.log(response.data.data)
-          this.booklist = response.data.data
+          console.log(response.data)
+          this.booklist = response.data
+          this.searchstring = this.$route.params.book_name
         }).catch((error) => {
           console.log(error)
         })
@@ -126,10 +127,11 @@ export default {
     handleCurrentChange (val) {
       this.page = val
       console.log(`当前页: ${val}`)
-      axios.post('http://106.13.75.89:8080/book/search', {'tag': this.$route.params.book_name, 'page': this.page, 'size': this.size})
+      axios.post('http://localhost:51324/BookList/searchName', {'name': this.$route.params.book_name, 'page': this.page, 'size': this.size})
         .then((response) => {
-          console.log(response.data.data)
-          this.booklist = response.data.data
+          console.log(response.data)
+          this.booklist = response.data
+          this.searchstring = this.$route.params.book_name
         }).catch((error) => {
           console.log(error)
         })

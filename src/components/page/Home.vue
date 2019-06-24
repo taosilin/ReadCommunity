@@ -207,6 +207,7 @@ export default {
       tableData1: [],
       tableData2: [],
       search: '',
+      users: [],
       images: [
         {id: 0, src: require('../../assets/img/5.jpg')},
         {id: 1, src: require('../../assets/img/22.jpg')},
@@ -217,27 +218,24 @@ export default {
     }
   },
   created () {
-    axios.post('http://106.13.75.89:8080/book/list')
+    axios.post('http://localhost:51324/BookList/score')
       .then((response) => {
-        // console.log(response.data.data)
-        this.tableData = response.data.data
-        this.score = response.data.data[0].score / 2
+        this.tableData = response.data
+        this.score = response.data[0].score / 2
       }).catch((error) => {
         console.log(error)
       })
-    axios.post('http://106.13.75.89:8080/book/rating')
+    axios.post('http://localhost:51324/BookList/rating')
       .then((response) => {
-        // console.log(response.data.data)
-        this.tableData1 = response.data.data
-        this.score = response.data.data[0].score / 2
+        this.tableData1 = response.data
+        this.score = response.data[0].score / 2
       }).catch((error) => {
         console.log(error)
       })
-    axios.post('http://106.13.75.89:8080/book/new')
+    axios.post('http://localhost:51324/BookList/new')
       .then((response) => {
-        // console.log(response.data.data)
-        this.tableData2 = response.data.data
-        this.score = response.data.data[0].score / 2
+        this.tableData2 = response.data
+        this.score = response.data[0].score / 2
       }).catch((error) => {
         console.log(error)
       })

@@ -163,12 +163,12 @@ export default {
     }
   },
   created () {
-    axios.post('http://106.13.75.89:8080/book/detail', {'id': this.$route.params.bookid})
+    axios.get('http://localhost:51324/api/Book/' + this.$route.params.bookid)
       .then((response) => {
-        console.log(response.data.data)
-        this.book = response.data.data
-        this.score = response.data.data.score / 2
-        let tags = response.data.data.tags.split(',')
+        console.log(response)
+        this.book = response.data[0]
+        this.score = response.data[0].score / 2
+        let tags = response.data[0].tags.split(',')
         tags.pop()
         this.tags = tags
       }).catch((error) => {
@@ -209,7 +209,7 @@ export default {
         confirmButtonText: '确定评论',
         cancelButtonText: '取消'
       }).then(({ value }) => {
-        axios.post('http://106.13.75.89:8080/comment/add', {'bookid': _this.$route.params.bookid, 'username': _this.$route.params.username, 'content': value, 'commenttime': new Date()})
+        axios.post('http://localhost:51324/api/Comment', {'bookid': _this.$route.params.bookid, 'username': _this.$route.params.username, 'content': value, 'commenttime': new Date()})
           .then((response) => {
             console.log(response.data)
             axios.post('http://106.13.75.89:8080/comment/booklist', {'id': _this.$route.params.bookid})
@@ -239,13 +239,20 @@ export default {
       })
     },
     onLike () {
-      axios.post('http://106.13.75.89:8080/userbook/likebook', {'username': this.$route.params.username, 'bookid': this.$route.params.bookid, 'time': new Date()})
+      axios.post('http://localhost:51324/api/LikeBook', {'username': this.$route.params.username, 'bookid': this.$route.params.bookid, 'type': '0', 'time': new Date()})
         .then((response) => {
           console.log(response.data)
-          this.$message({
-            type: 'success',
-            message: '收藏成功'
-          })
+          if (response.data !== 'exist') {
+            this.$message({
+              type: 'success',
+              message: '收藏成功'
+            })
+          } else {
+            this.$message({
+              type: 'info',
+              message: '您已收藏过此书'
+            })
+          }
         }).catch((error) => {
           console.log(error)
           this.$message({
@@ -255,13 +262,20 @@ export default {
         })
     },
     onRead () {
-      axios.post('http://106.13.75.89:8080/userbook/readbook', {'username': this.$route.params.username, 'bookid': this.$route.params.bookid, 'time': new Date()})
+      axios.post('http://localhost:51324/api/LikeBook', {'username': this.$route.params.username, 'bookid': this.$route.params.bookid, 'type': '1', 'time': new Date()})
         .then((response) => {
           console.log(response.data)
-          this.$message({
-            type: 'success',
-            message: '阅读完毕'
-          })
+          if (response.data !== 'exist') {
+            this.$message({
+              type: 'success',
+              message: '阅读完毕'
+            })
+          } else {
+            this.$message({
+              type: 'info',
+              message: '您已阅读过此书'
+            })
+          }
         }).catch((error) => {
           console.log(error)
           this.$message({

@@ -105,10 +105,10 @@ export default {
   methods: {
     onSubmit () {
       var _this = this
-      axios.post('http://106.13.75.89:8080/user/signup', {'username': this.form.username, 'password': this.form.password, 'nickname': this.form.nickname, 'gender': this.form.gender, 'birthday': this.form.birthday, 'introduction': this.form.introduction})
+      axios.post('http://localhost:51324/api/User', {'username': this.form.username, 'password': this.form.password, 'nickname': this.form.nickname, 'gender': this.form.gender, 'birthday': this.form.birthday, 'introduction': this.form.introduction})
         .then((response) => {
-          console.log(response.data.message)
-          if (response.data.code === 200) {
+          console.log(response)
+          if (response.data === 'success') {
             this.$message({
               showClose: true,
               message: '注册成功',
@@ -118,7 +118,7 @@ export default {
           } else {
             this.$message({
               showClose: true,
-              message: '注册失败',
+              message: '注册失败,该用户名已存在',
               type: 'error'
             })
           }

@@ -203,11 +203,11 @@ export default {
     if (this.$route.params.username === null) {
       this.$router.push({name: `SignIn`})
     }
-    axios.post('http://106.13.75.89:8080/user/info', {'username': this.$route.params.username})
+    axios.get('http://localhost:51324/api/User/' + this.$route.params.username)
       .then((response) => {
-        console.log(response.data.data)
-        this.user = response.data.data
-        this.form = response.data.data
+        console.log(response)
+        this.user = response.data[0]
+        this.form = response.data[0]
       }).catch((error) => {
         console.log(error)
       })
@@ -278,7 +278,7 @@ export default {
         })
     },
     onSubmit () {
-      axios.post('http://106.13.75.89:8080/user/update', {'username': this.form.username, 'password': this.form.password, 'nickname': this.form.nickname, 'gender': this.form.gender, 'birthday': this.form.birthday, 'introduction': this.form.introduction})
+      axios.put('http://localhost:51324/api/User/' + this.form.username, {'username': this.form.username, 'password': this.form.password, 'nickname': this.form.nickname, 'gender': this.form.gender, 'birthday': this.form.birthday, 'introduction': this.form.introduction})
         .then((response) => {
           console.log(response.data.message)
           if (response.data.code === 200) {
@@ -287,11 +287,11 @@ export default {
               message: '保存成功',
               type: 'success'
             })
-            axios.post('http://106.13.75.89:8080/user/info', {'username': this.$route.params.username})
+            axios.get('http://localhost:51324/api/User/' + this.$route.params.username)
               .then((response) => {
-                console.log(response.data.data)
-                this.user = response.data.data
-                this.form = response.data.data
+                console.log(response)
+                this.user = response.data[0]
+                this.form = response.data[0]
               }).catch((error) => {
                 console.log(error)
               })
