@@ -174,10 +174,10 @@ export default {
       }).catch((error) => {
         console.log(error)
       })
-    axios.post('http://106.13.75.89:8080/comment/booklist', {'id': this.$route.params.bookid})
+    axios.post('http://localhost:51324/CommentList/Book', {'id': this.$route.params.bookid})
       .then((response) => {
-        console.log(response.data.data)
-        this.comments = response.data.data
+        console.log(response.data)
+        this.comments = response.data
         for (var i = 0; i < this.comments.length; i++) {
           this.comments[i].Time = new Date(this.comments[i].commenttime)
           this.comments[i].Time = (this.comments[i].Time).toLocaleString()
@@ -212,10 +212,10 @@ export default {
         axios.post('http://localhost:51324/api/Comment', {'bookid': _this.$route.params.bookid, 'username': _this.$route.params.username, 'content': value, 'commenttime': new Date()})
           .then((response) => {
             console.log(response.data)
-            axios.post('http://106.13.75.89:8080/comment/booklist', {'id': _this.$route.params.bookid})
+            axios.post('http://localhost:51324/CommentList/Book', {'id': _this.$route.params.bookid})
               .then((response) => {
-                console.log(response.data.data)
-                _this.comments = response.data.data
+                console.log(response.data)
+                _this.comments = response.data
                 for (var i = 0; i < _this.comments.length; i++) {
                   _this.comments[i].Time = new Date(_this.comments[i].commenttime)
                   _this.comments[i].Time = (_this.comments[i].Time).toLocaleString()
@@ -285,7 +285,7 @@ export default {
         })
     },
     onScore () {
-      axios.post('http://106.13.75.89:8080/score/book', {'bookid': this.$route.params.bookid, 'username': this.$route.params.username, 'score': this.value})
+      axios.post('http://localhost:51324/api/scores', {'bookid': this.$route.params.bookid, 'username': this.$route.params.username, 'score1': this.value})
         .then((response) => {
           console.log(response.data)
           this.$message({

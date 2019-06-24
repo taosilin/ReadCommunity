@@ -55,7 +55,7 @@
                         text-color="#ff9900">
                       </el-rate>
                       {{item.score}}
-                      <el-button type="text" @click="dialogVisible = true" class="delete" size="mini">删除评论</el-button>
+                      <el-button type="text" @click="dialogVisible = true; itemid = item.commentid" class="delete" size="mini">删除评论</el-button>
                       <el-dialog
                         title="提示"
                         :visible.sync="dialogVisible"
@@ -63,7 +63,7 @@
                         <span>评论删除后不可恢复，确认删除？</span>
                         <span slot="footer" class="dialog-footer">
                           <el-button @click="dialogVisible = false">取 消</el-button>
-                          <el-button type="primary" @click="onDeleteComment(index)">确 定</el-button>
+                          <el-button type="primary" @click="onDeleteComment()">确 定</el-button>
                         </span>
                       </el-dialog>
                     </el-row>
@@ -169,6 +169,7 @@ export default {
     }
     return {
       activeIndex: '4',
+      itemid: 0,
       user: {},
       comments: [],
       likeList: [],
@@ -211,25 +212,25 @@ export default {
       }).catch((error) => {
         console.log(error)
       })
-    axios.post('http://106.13.75.89:8080/comment/userlist', {'username': this.$route.params.username})
+    axios.post('http://localhost:51324/CommentList/User', {'username': this.$route.params.username})
       .then((response) => {
-        console.log(response.data.data)
-        this.comments = response.data.data
+        console.log(response.data)
+        this.comments = response.data
       }).catch((error) => {
         console.log(error)
       })
-    axios.post('http://106.13.75.89:8080/userbook/likelist', {'username': this.$route.params.username})
+    axios.post('http://localhost:51324/LikeBook/List', {'username': this.$route.params.username, 'type': '0'})
       .then((response) => {
-        console.log(response.data.data)
-        this.likeList = response.data.data
+        console.log(response.data)
+        this.likeList = response.data
       }).catch((error) => {
         console.log(error)
       })
-    axios.post('http://106.13.75.89:8080/userbook/readlist', {'username': this.$route.params.username})
+    axios.post('http://localhost:51324/LikeBook/List', {'username': this.$route.params.username, 'type': '1'})
       .then((response) => {
-        console.log(response.data.data)
-        this.readList = response.data.data
-        this.read_num = response.data.data.length
+        console.log(response.data)
+        this.readList = response.data
+        this.read_num = response.data.length
         for (var i = 0; i < this.readList.length; i++) {
           this.readList[i].Time = new Date(this.readList[i].time)
           this.readList[i].date = String((this.readList[i].Time).toLocaleDateString())
@@ -260,16 +261,16 @@ export default {
         this.$router.push({ name: `Me`, params: {username: username} })
       }
     },
-    onDeleteComment (index) {
+    onDeleteComment () {
       this.dialogVisible = false
-      console.log(this.comments[index].commentid)
-      axios.post('http://106.13.75.89:8080/comment/delete', {'commentid': this.comments[index].commentid})
+      console.log(this.itemid)
+      axios.post('http://localhost:51324/CommentList/Delete', {'commentid': this.itemid})
         .then((response) => {
           console.log(response.data)
-          axios.post('http://106.13.75.89:8080/comment/userlist', {'username': this.$route.params.username})
+          axios.post('http://localhost:51324/CommentList/User', {'username': this.$route.params.username})
             .then((response) => {
-              console.log(response.data.data)
-              this.comments = response.data.data
+              console.log(response.data)
+              this.comments = response.data
             }).catch((error) => {
               console.log(error)
             })
@@ -278,10 +279,10 @@ export default {
         })
     },
     onSubmit () {
-      axios.put('http://localhost:51324/api/User/' + this.form.username, {'username': this.form.username, 'password': this.form.password, 'nickname': this.form.nickname, 'gender': this.form.gender, 'birthday': this.form.birthday, 'introduction': this.form.introduction})
+      axios.post('http://localhost:51324/UserInfo/Update', {'username': this.form.username, 'password': this.form.password, 'nickname': this.form.nickname, 'gender': this.form.gender, 'birthday': this.form.birthday, 'introduction': this.form.introduction})
         .then((response) => {
-          console.log(response.data.message)
-          if (response.data.code === 200) {
+          console.log(response.data)
+          if (response.data === 'success') {
             this.$message({
               showClose: true,
               message: '保存成功',
