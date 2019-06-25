@@ -67,9 +67,9 @@ export default {
     }
   },
   created () {
-    axios.post('http://106.13.75.89:8080/user/recommend', {'username': this.$route.params.username})
+    axios.post('http://localhost:51324/BookList/Recommend', {'name': this.$route.params.username, 'page': 0, 'size': 16})
       .then((response) => {
-        this.recommend = response.data.data
+        this.recommend = response.data
       }).catch((error) => {
         console.log(error)
       })
