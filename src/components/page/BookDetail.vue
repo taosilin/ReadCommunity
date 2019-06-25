@@ -163,7 +163,7 @@ export default {
     }
   },
   created () {
-    axios.get('http://localhost:51324/api/Book/' + this.$route.params.bookid)
+    axios.post('http://localhost:51324/BookList/Detail', {'id': this.$route.params.bookid})
       .then((response) => {
         console.log(response)
         this.book = response.data[0]
@@ -209,7 +209,7 @@ export default {
         confirmButtonText: '确定评论',
         cancelButtonText: '取消'
       }).then(({ value }) => {
-        axios.post('http://localhost:51324/api/Comment', {'bookid': _this.$route.params.bookid, 'username': _this.$route.params.username, 'content': value, 'commenttime': new Date()})
+        axios.post('http://localhost:51324/CommentList/Add', {'bookid': _this.$route.params.bookid, 'username': _this.$route.params.username, 'content': value, 'commenttime': new Date()})
           .then((response) => {
             console.log(response.data)
             axios.post('http://localhost:51324/CommentList/Book', {'id': _this.$route.params.bookid})
@@ -239,7 +239,7 @@ export default {
       })
     },
     onLike () {
-      axios.post('http://localhost:51324/api/LikeBook', {'username': this.$route.params.username, 'bookid': this.$route.params.bookid, 'type': '0', 'time': new Date()})
+      axios.post('http://localhost:51324/LikeBook/UserBook', {'username': this.$route.params.username, 'bookid': this.$route.params.bookid, 'type': '0', 'time': new Date()})
         .then((response) => {
           console.log(response.data)
           if (response.data !== 'exist') {
@@ -262,7 +262,7 @@ export default {
         })
     },
     onRead () {
-      axios.post('http://localhost:51324/api/LikeBook', {'username': this.$route.params.username, 'bookid': this.$route.params.bookid, 'type': '1', 'time': new Date()})
+      axios.post('http://localhost:51324/LikeBook/UserBook', {'username': this.$route.params.username, 'bookid': this.$route.params.bookid, 'type': '1', 'time': new Date()})
         .then((response) => {
           console.log(response.data)
           if (response.data !== 'exist') {
@@ -285,7 +285,7 @@ export default {
         })
     },
     onScore () {
-      axios.post('http://localhost:51324/api/scores', {'bookid': this.$route.params.bookid, 'username': this.$route.params.username, 'score1': this.value})
+      axios.post('http://localhost:51324/Score/Add', {'bookid': this.$route.params.bookid, 'username': this.$route.params.username, 'score1': this.value})
         .then((response) => {
           console.log(response.data)
           this.$message({

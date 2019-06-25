@@ -204,7 +204,7 @@ export default {
     if (this.$route.params.username === null) {
       this.$router.push({name: `SignIn`})
     }
-    axios.get('http://localhost:51324/api/User/' + this.$route.params.username)
+    axios.post('http://localhost:51324/UserInfo/Detail', {'username': this.$route.params.username})
       .then((response) => {
         console.log(response)
         this.user = response.data[0]
