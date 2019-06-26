@@ -82,7 +82,7 @@ export default {
     }
   },
   created () {
-    axios.post('http://localhost:51324/BookList/searchName', {'name': this.$route.params.book_name, 'page': 0, 'size': 10})
+    axios.post('http://localhost:6793/BookList/searchName', {'name': this.$route.params.book_name, 'page': 0, 'size': 10})
       .then((response) => {
         console.log(response.data)
         this.booklist = response.data
@@ -93,6 +93,8 @@ export default {
   },
   methods: {
     onSearch () {
+      console.log('search')
+      console.log(this.search)
       let username = this.$route.params.username
       this.$router.push({name: `SearchResult`, params: {book_name: this.search, username: username}})
     },
@@ -115,7 +117,7 @@ export default {
     handleSizeChange (val) {
       this.size = val
       console.log(`每页 ${val} 条`)
-      axios.post('http://localhost:51324/BookList/searchName', {'name': this.$route.params.book_name, 'page': this.page, 'size': this.size})
+      axios.post('http://localhost:6793/BookList/searchName', {'name': this.$route.params.book_name, 'page': this.page, 'size': this.size})
         .then((response) => {
           console.log(response.data)
           this.booklist = response.data
@@ -127,7 +129,7 @@ export default {
     handleCurrentChange (val) {
       this.page = val
       console.log(`当前页: ${val}`)
-      axios.post('http://localhost:51324/BookList/searchName', {'name': this.$route.params.book_name, 'page': this.page, 'size': this.size})
+      axios.post('http://localhost:6793/BookList/searchName', {'name': this.$route.params.book_name, 'page': this.page, 'size': this.size})
         .then((response) => {
           console.log(response.data)
           this.booklist = response.data

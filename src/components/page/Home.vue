@@ -218,21 +218,21 @@ export default {
     }
   },
   created () {
-    axios.post('http://localhost:51324/BookList/score')
+    axios.post('http://localhost:6793/BookList/score')
       .then((response) => {
         this.tableData = response.data
         this.score = response.data[0].score / 2
       }).catch((error) => {
         console.log(error)
       })
-    axios.post('http://localhost:51324/BookList/rating')
+    axios.post('http://localhost:6793/BookList/rating')
       .then((response) => {
         this.tableData1 = response.data
         this.score = response.data[0].score / 2
       }).catch((error) => {
         console.log(error)
       })
-    axios.post('http://localhost:51324/BookList/new')
+    axios.post('http://localhost:6793/BookList/new')
       .then((response) => {
         this.tableData2 = response.data
         this.score = response.data[0].score / 2

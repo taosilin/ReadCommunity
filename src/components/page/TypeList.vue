@@ -79,7 +79,7 @@ export default {
     }
   },
   created () {
-    axios.post('http://localhost:51324/BookList/searchType', {'name': this.$route.params.type, 'page': 0, 'size': 10})
+    axios.post('http://localhost:6793/BookList/searchType', {'name': this.$route.params.type, 'page': 0, 'size': 10})
       .then((response) => {
         console.log(response.data)
         this.booklist = response.data
@@ -112,7 +112,7 @@ export default {
     handleSizeChange (val) {
       this.size = val
       console.log(`每页 ${val} 条`)
-      axios.post('http://localhost:51324/BookList/searchType', {'name': this.$route.params.type, 'page': this.page, 'size': this.size})
+      axios.post('http://localhost:6793/BookList/searchType', {'name': this.$route.params.type, 'page': this.page, 'size': this.size})
         .then((response) => {
           console.log(response.data)
           this.booklist = response.data
@@ -123,7 +123,7 @@ export default {
     handleCurrentChange (val) {
       this.page = val
       console.log(`当前页: ${val}`)
-      axios.post('http://localhost:51324/BookList/searchType', {'name': this.$route.params.type, 'page': this.page, 'size': this.size})
+      axios.post('http://localhost:6793/BookList/searchType', {'name': this.$route.params.type, 'page': this.page, 'size': this.size})
         .then((response) => {
           console.log(response.data)
           this.booklist = response.data

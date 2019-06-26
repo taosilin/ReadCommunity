@@ -163,18 +163,18 @@ export default {
     }
   },
   created () {
-    axios.post('http://localhost:51324/BookList/Detail', {'id': this.$route.params.bookid})
+    axios.post('http://localhost:6793/BookList/Detail', {'id': this.$route.params.bookid})
       .then((response) => {
         console.log(response)
-        this.book = response.data[0]
-        this.score = response.data[0].score / 2
-        let tags = response.data[0].tags.split(',')
+        this.book = response.data
+        this.score = response.data.score / 2
+        let tags = response.data.tags.split(',')
         tags.pop()
         this.tags = tags
       }).catch((error) => {
         console.log(error)
       })
-    axios.post('http://localhost:51324/CommentList/Book', {'id': this.$route.params.bookid})
+    axios.post('http://localhost:6793/CommentList/Book', {'id': this.$route.params.bookid})
       .then((response) => {
         console.log(response.data)
         this.comments = response.data
@@ -209,10 +209,10 @@ export default {
         confirmButtonText: '确定评论',
         cancelButtonText: '取消'
       }).then(({ value }) => {
-        axios.post('http://localhost:51324/CommentList/Add', {'bookid': _this.$route.params.bookid, 'username': _this.$route.params.username, 'content': value, 'commenttime': new Date()})
+        axios.post('http://localhost:6793/CommentList/Add', {'bookid': _this.$route.params.bookid, 'username': _this.$route.params.username, 'content': value, 'commenttime': new Date()})
           .then((response) => {
             console.log(response.data)
-            axios.post('http://localhost:51324/CommentList/Book', {'id': _this.$route.params.bookid})
+            axios.post('http://localhost:6793/CommentList/Book', {'id': _this.$route.params.bookid})
               .then((response) => {
                 console.log(response.data)
                 _this.comments = response.data
@@ -230,7 +230,6 @@ export default {
           type: 'success',
           message: '评论成功'
         })
-
       }).catch(() => {
         this.$message({
           type: 'info',
@@ -239,7 +238,7 @@ export default {
       })
     },
     onLike () {
-      axios.post('http://localhost:51324/LikeBook/UserBook', {'username': this.$route.params.username, 'bookid': this.$route.params.bookid, 'type': '0', 'time': new Date()})
+      axios.post('http://localhost:6793/LikeBook/UserBook', {'username': this.$route.params.username, 'bookid': this.$route.params.bookid, 'type': '0', 'time': new Date()})
         .then((response) => {
           console.log(response.data)
           if (response.data !== 'exist') {
@@ -262,7 +261,7 @@ export default {
         })
     },
     onRead () {
-      axios.post('http://localhost:51324/LikeBook/UserBook', {'username': this.$route.params.username, 'bookid': this.$route.params.bookid, 'type': '1', 'time': new Date()})
+      axios.post('http://localhost:6793/LikeBook/UserBook', {'username': this.$route.params.username, 'bookid': this.$route.params.bookid, 'type': '1', 'time': new Date()})
         .then((response) => {
           console.log(response.data)
           if (response.data !== 'exist') {
@@ -285,9 +284,20 @@ export default {
         })
     },
     onScore () {
-      axios.post('http://localhost:51324/Score/Add', {'bookid': this.$route.params.bookid, 'username': this.$route.params.username, 'score1': this.value})
+      axios.post('http://localhost:6793/Score/Add', {'bookid': this.$route.params.bookid, 'username': this.$route.params.username, 'score1': this.value})
         .then((response) => {
           console.log(response.data)
+          axios.post('http://localhost:6793/BookList/Detail', {'id': this.$route.params.bookid})
+            .then((response) => {
+              console.log(response)
+              this.book = response.data
+              this.score = response.data.score / 2
+              let tags = response.data.tags.split(',')
+              tags.pop()
+              this.tags = tags
+            }).catch((error) => {
+              console.log(error)
+            })
           this.$message({
             type: 'success',
             message: '成功打分'

@@ -39,7 +39,7 @@ export default {
   methods: {
     handleLogin () {
       var _this = this
-      axios.post('http://localhost:51324/Login/user', {'username': this.username, 'password': this.password})
+      axios.post('http://localhost:6793/Login/user', {'username': this.username, 'password': this.password})
         .then((response) => {
           console.log(response)
           if (response.data === 'success') {

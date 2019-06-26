@@ -204,29 +204,29 @@ export default {
     if (this.$route.params.username === null) {
       this.$router.push({name: `SignIn`})
     }
-    axios.post('http://localhost:51324/UserInfo/Detail', {'username': this.$route.params.username})
+    axios.post('http://localhost:6793/UserInfo/Detail', {'username': this.$route.params.username})
       .then((response) => {
         console.log(response)
-        this.user = response.data[0]
-        this.form = response.data[0]
+        this.user = response.data
+        this.form = response.data
       }).catch((error) => {
         console.log(error)
       })
-    axios.post('http://localhost:51324/CommentList/User', {'username': this.$route.params.username})
+    axios.post('http://localhost:6793/CommentList/User', {'username': this.$route.params.username})
       .then((response) => {
         console.log(response.data)
         this.comments = response.data
       }).catch((error) => {
         console.log(error)
       })
-    axios.post('http://localhost:51324/LikeBook/List', {'username': this.$route.params.username, 'type': '0'})
+    axios.post('http://localhost:6793/LikeBook/List', {'username': this.$route.params.username, 'type': '0'})
       .then((response) => {
         console.log(response.data)
         this.likeList = response.data
       }).catch((error) => {
         console.log(error)
       })
-    axios.post('http://localhost:51324/LikeBook/List', {'username': this.$route.params.username, 'type': '1'})
+    axios.post('http://localhost:6793/LikeBook/List', {'username': this.$route.params.username, 'type': '1'})
       .then((response) => {
         console.log(response.data)
         this.readList = response.data
@@ -264,10 +264,10 @@ export default {
     onDeleteComment () {
       this.dialogVisible = false
       console.log(this.itemid)
-      axios.post('http://localhost:51324/CommentList/Delete', {'commentid': this.itemid})
+      axios.post('http://localhost:6793/CommentList/Delete', {'commentid': this.itemid})
         .then((response) => {
           console.log(response.data)
-          axios.post('http://localhost:51324/CommentList/User', {'username': this.$route.params.username})
+          axios.post('http://localhost:6793/CommentList/User', {'username': this.$route.params.username})
             .then((response) => {
               console.log(response.data)
               this.comments = response.data
@@ -279,7 +279,7 @@ export default {
         })
     },
     onSubmit () {
-      axios.post('http://localhost:51324/UserInfo/Update', {'username': this.form.username, 'password': this.form.password, 'nickname': this.form.nickname, 'gender': this.form.gender, 'birthday': this.form.birthday, 'introduction': this.form.introduction})
+      axios.post('http://localhost:6793/UserInfo/Update', {'username': this.form.username, 'password': this.form.password, 'nickname': this.form.nickname, 'gender': this.form.gender, 'birthday': this.form.birthday, 'introduction': this.form.introduction})
         .then((response) => {
           console.log(response.data)
           if (response.data === 'success') {
@@ -288,11 +288,11 @@ export default {
               message: '保存成功',
               type: 'success'
             })
-            axios.get('http://localhost:51324/api/User/' + this.$route.params.username)
+            axios.post('http://localhost:6793/UserInfo/Detail', {'username': this.$route.params.username})
               .then((response) => {
                 console.log(response)
-                this.user = response.data[0]
-                this.form = response.data[0]
+                this.user = response.data
+                this.form = response.data
               }).catch((error) => {
                 console.log(error)
               })

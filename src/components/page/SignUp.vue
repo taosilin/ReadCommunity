@@ -105,7 +105,7 @@ export default {
   methods: {
     onSubmit () {
       var _this = this
-      axios.post('http://localhost:51324/UserInfo/SignUp', {'username': this.form.username, 'password': this.form.password, 'nickname': this.form.nickname, 'gender': this.form.gender, 'birthday': this.form.birthday, 'introduction': this.form.introduction})
+      axios.post('http://localhost:6793/UserInfo/SignUp', {'username': this.form.username, 'password': this.form.password, 'nickname': this.form.nickname, 'gender': this.form.gender, 'birthday': this.form.birthday, 'introduction': this.form.introduction})
         .then((response) => {
           console.log(response)
           if (response.data === 'success') {
